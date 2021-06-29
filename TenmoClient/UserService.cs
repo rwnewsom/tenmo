@@ -11,6 +11,11 @@ namespace TenmoClient
             user = u;
         }
 
+        public static void ClearLoggedInUser()
+        {
+            SetLogin(new API_User());
+        }
+
         public static int UserId
         {
             get 

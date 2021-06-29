@@ -14,19 +14,19 @@ USE tenmo
 GO
 
 CREATE TABLE transfer_types (
-	transfer_type_id int IDENTITY(1,1) NOT NULL,
+	transfer_type_id int IDENTITY(1000,1) NOT NULL,
 	transfer_type_desc varchar(10) NOT NULL,
 	CONSTRAINT PK_transfer_types PRIMARY KEY (transfer_type_id)
 )
 
 CREATE TABLE transfer_statuses (
-	transfer_status_id int IDENTITY(1,1) NOT NULL,
+	transfer_status_id int IDENTITY(2000,1) NOT NULL,
 	transfer_status_desc varchar(10) NOT NULL,
 	CONSTRAINT PK_transfer_statuses PRIMARY KEY (transfer_status_id)
 )
 
 CREATE TABLE users (
-	user_id int IDENTITY(1,1) NOT NULL,
+	user_id int IDENTITY(3000,1) NOT NULL,
 	username varchar(50) NOT NULL,
 	password_hash varchar(200) NOT NULL,
 	salt varchar(200) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE users (
 )
 
 CREATE TABLE accounts (
-	account_id int IDENTITY(1,1) NOT NULL,
+	account_id int IDENTITY(4000,1) NOT NULL,
 	user_id int NOT NULL,
 	balance decimal(13, 2) NOT NULL,
 	CONSTRAINT PK_accounts PRIMARY KEY (account_id),
@@ -42,7 +42,7 @@ CREATE TABLE accounts (
 )
 
 CREATE TABLE transfers (
-	transfer_id int IDENTITY(1,1) NOT NULL,
+	transfer_id int IDENTITY(5000,1) NOT NULL,
 	transfer_type_id int NOT NULL,
 	transfer_status_id int NOT NULL,
 	account_from int NOT NULL,

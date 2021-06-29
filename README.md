@@ -20,9 +20,9 @@ You should attempt to complete all of the following required use cases.
    3. The receiver's account balance is increased by the amount of the transfer.
    4. The sender's account balance is decreased by the amount of the transfer.
    5. I can't send more TE Bucks than I have in my account.
-   6. A Sending Transfer has an initial status of "approve."
+   6. A Sending Transfer has an initial status of "approved"
 5. As an authenticated user of the system, I need to be able to see transfers I have sent or received.
-6. As an authenticated user of the system, I need to be able to retrieve the details of any transfer based upon the transfer ID.
+6. As an authenticated user of the system, I need to be able to retrieve the details of any transfer involving me based upon the transfer ID.
 
 ### Optional Use Cases
 If you complete all of the required use cases and are looking for additional challenge, complete as many of the following optional use cases as you can.
@@ -34,7 +34,7 @@ If you complete all of the required use cases and are looking for additional cha
    4. No account balance changes until the request is approved.
    5. The transfer request should appear in both users' list of transfers (use case #5).
 8. As an authenticated user of the system, I need to be able to see my "pending" transfers.
-9. As an authenticated user of the system, I need to be able to either approve or reject a Request Transfer.
+9. As an authenticated user of the system, I need to be able to either approve or reject a Request Transfer requested of me.
    1. I can't "approve" a given Request Transfer for more TE Bucks than I have in my account.
    2. The Request Transfer status is "approved" if I approve, or "rejected" if I reject the request.
    3. If the transfer is approved, the requester's account balance is increased by the amount of the request.
@@ -203,6 +203,30 @@ The user registration and authentication functionality for the system has alread
 
 There's also a method called `UserService.GetToken()` that returns the authorization token—meaning JWT—of the logged in user. When the use cases above refer to an "authenticated user", this means a request that includes the token.
 
-## Set startup projects
+## Client / Server Projects
 
-Since both the client and server applications are included in the solution, you'll have to configure the solution to run both projects simultaneously. In Visual Studio, right-click the solution and select "properties." In the window that appears, select "Multiple startup projects" and set both "TenmoClient" and "TenmoServer" to have the action `Start`.
+To reduce the odds of mistakes, the client and server have been split into two separate solutions. Both solutions will need to be run together in order for the application to work.
+
+In a real-world scenario the server would be running on a centralized machine while multiple client applications would live on individual user's machines (or in a web application or mobile app for a more modern application). For development the client, server, and database all run on one machine, but the application should be designed with multiple clients interacting with a centralized server.
+
+## API Debugging Tips
+
+- Test your server frequently in Postman
+- Try to figure out if your server is getting a valid request (via debugging) and if the server is sending back a valid response (via debugging or Postman)
+- Whenever possible, try to eliminate places where the error could be hiding and narrow it down to a specific class or method
+- Refer to the debugging flowchart below for additional tips
+
+![Debugging Flowchart](./img/APIDebugging.png)
+
+## Code Review Criteria
+
+- Your code should follow REST conventions wherever possible
+- Your API should be secured against unauthenticated attackers
+- Your API should forbid transferring money from other people's accounts to your own account (requests are fine - see optional requirements)
+- You should not put all of your new controller methods inside of the Login Controller
+- You should not put all of your client-side API code inside of the Auth Service
+- You have no restrictions around the use of static or console statements this capstone
+- You may modify any pre-provided code to suit your needs
+- Try to follow SOLID principles, keep methods small, and keep classes focused on a single responsibility principle
+- I may ask you to show me your Postman history around this project so I can see the types of requests you made to test your server
+- Code Review may be done in groups of teams or even with the class as a whole

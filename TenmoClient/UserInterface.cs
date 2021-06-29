@@ -8,11 +8,11 @@ namespace TenmoClient
         private readonly ConsoleService consoleService = new ConsoleService();
         private readonly AuthService authService = new AuthService();
 
-        private bool shouldExit = false;
+        private bool quitRequested = false;
 
         public void Start()
         {
-            while (!shouldExit)
+            while (!quitRequested)
             {
                 while (!authService.IsLoggedIn)
                 {
@@ -51,8 +51,8 @@ namespace TenmoClient
 
         private void ShowMainMenu()
         {
-            int menuSelection = -1;
-            while (menuSelection != 0)
+            int menuSelection;
+            do
             {
                 Console.WriteLine();
                 Console.WriteLine("Welcome to TEnmo! Please make a selection: ");
@@ -74,32 +74,35 @@ namespace TenmoClient
                 {
                     switch (menuSelection)
                     {
-                        case 1:
+                        case 1: // View Balance
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
-                        case 2:
+                        case 2: // View Past Transfers
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
-                        case 3:
+                        case 3: // View Pending Requests
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
-                        case 4:
+                        case 4: // Send TE Bucks
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
-                        case 5:
+                        case 5: // Request TE Bucks
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
-                        case 6:
+                        case 6: // Log in as someone else
                             Console.WriteLine();
-                            UserService.SetLogin(new API_User()); //wipe out previous login info
+                            UserService.ClearLoggedInUser(); //wipe out previous login info
+                            return; // Leaves the menu and should return as someone else
+                        case 0: // Quit
+                            Console.WriteLine("Goodbye!");
+                            quitRequested = true;
                             return;
                         default:
-                            Console.WriteLine("Goodbye!");
-                            shouldExit = true;
-                            return;
+                            Console.WriteLine("That doesn't seem like a valid choice.");
+                            break;
                     }
                 }
-            }
+            } while (menuSelection != 0);
         }
 
         private void HandleUserRegister()
