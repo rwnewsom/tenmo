@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TenmoServer</name>
+    </assembly>
+    <members>
+        <member name="T:TenmoServer.Models.LoginUser">
+            <summary>
+            Model to accept login parameters
+            </summary>
+        </member>
+        <member name="T:TenmoServer.Models.ReturnUser">
+            <summary>
+            Model to return upon successful login
+            </summary>
+        </member>
+        <member name="T:TenmoServer.Security.IPasswordHasher">
+            <summary>
+            Represents a password hasher.
+            </summary>
+        </member>
+        <member name="M:TenmoServer.Security.IPasswordHasher.ComputeHash(System.String)">
+            <summary>
+            Given a clear text password, hash the password and return a Password Hash object.
+            </summary>
+            <param name="plainTextPassword">the password as given by the user.</param>
+            <returns>A hashed password object.</returns>
+        </member>
+        <member name="M:TenmoServer.Security.IPasswordHasher.VerifyHashMatch(System.String,System.String,System.String)">
+            <summary>
+            Verifies a match of an existing hashed password against a user input.
+            </summary>
+            <param name="existingHashedPassword">The existing hashed password.</param>
+            <param name="plainTextPassword">The password as typed in by the user</param>
+            <param name="salt">The salt used to compute the original hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TenmoServer.Security.ITokenGenerator.GenerateToken(System.Int32,System.String)">
+            <summary>
+            Generates a new authentication token.
+            </summary>
+            <param name="username">The user's username</param>
+            <returns></returns>
+        </member>
+        <member name="M:TenmoServer.Security.ITokenGenerator.GenerateToken(System.Int32,System.String,System.String)">
+            <summary>
+            Generates a new authentication token.
+            </summary>
+            <param name="username">The user's username</param>
+            <param name="role">The user's role</param>
+            <returns></returns>
+        </member>
+        <member name="T:TenmoServer.Security.Models.PasswordHash">
+            <summary>
+            Represents a hashed password.
+            </summary>
+        </member>
+        <member name="M:TenmoServer.Security.Models.PasswordHash.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new hashed password.
+            </summary>
+            <param name="password">The hashed password</param>
+            <param name="salt">The salt used to get the hashed password.</param>
+        </member>
+        <member name="P:TenmoServer.Security.Models.PasswordHash.Password">
+            <summary>
+            The hashed password
+            </summary>
+        </member>
+        <member name="P:TenmoServer.Security.Models.PasswordHash.Salt">
+            <summary>
+            The salt used to get the hashed password.
+            </summary>
+        </member>
+        <member name="T:TenmoServer.Security.PasswordHasher">
+            <summary>
+            The hash provider provides functionality to hash a plain text password and validate
+            an existing password against its hash.
+            </summary>
+        </member>
+        <member name="M:TenmoServer.Security.PasswordHasher.ComputeHash(System.String)">
+            <summary>
+            Hashes a plain text password.
+            </summary>
+            <param name="plainTextPassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TenmoServer.Security.PasswordHasher.VerifyHashMatch(System.String,System.String,System.String)">
+            <summary>
+            Verifies if an existing hashed password matches a plaintext password (+salt).
+            </summary>
+            <param name="existingHashedPassword">The password we are comparing to.</param>
+            <param name="plainTextPassword">The plaintext password being validated.</param>
+            <param name="salt">The salt used to get the existing hashed password.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
