@@ -100,5 +100,27 @@ namespace TenmoServer.DAO
                 Salt = Convert.ToString(reader["salt"]),
             };
         }
+
+        public decimal GetUserBalanceFromReader(int userId)
+        {
+            decimal userBalance = 0;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                //
+                SqlCommand cmd = new SqlCommand("SELECT balance FROM accounts a INNER JOIN users u on a.user_id = u.user_id WHERE u.user_id = @userid", conn);
+                cmd.Parameters.AddWithValue("@userid", userId);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    userBalance = Convert.ToInt32(reader["accounts.balance"]);
+                }
+            }
+
+            return userBalance;
+        }
     }
 }

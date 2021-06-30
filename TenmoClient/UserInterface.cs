@@ -75,7 +75,7 @@ namespace TenmoClient
                     switch (menuSelection)
                     {
                         case 1: // View Balance
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            Console.WriteLine("VIEW ACCOUNT BALANCE NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
                         case 2: // View Past Transfers
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -131,5 +131,13 @@ namespace TenmoClient
                 }
             }
         }
+
+        /*
+        private void ShowAccountBalance()
+        {
+            decimal accountBalance = 
+
+        }
+        */
     }
 }
