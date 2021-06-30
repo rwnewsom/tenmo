@@ -101,9 +101,8 @@ namespace TenmoServer.DAO
             };
         }
 
-        public decimal GetUserBalanceFromReader(int userId)
+        public Account GetUserBalanceFromReader(int userId)
         {
-            decimal userBalance = 0;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -116,11 +115,17 @@ namespace TenmoServer.DAO
 
                 if (reader.HasRows && reader.Read())
                 {
-                    userBalance = Convert.ToInt32(reader["accounts.balance"]);
+                    Account account = new Account()
+                    {
+                        User_Id = Convert.ToInt32(reader["user_id"]),
+                        Account_Id = Convert.ToInt32(reader["account_id"]),
+                        Balance = Convert.ToDecimal(reader["balance"]),
+                    };
+                return account;
                 }
+                return null;
             }
 
-            return userBalance;
         }
     }
 }

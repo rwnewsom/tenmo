@@ -29,10 +29,11 @@ namespace TenmoServer.Controllers
         [HttpGet]
         public IActionResult GetBalance()
         {
-            decimal balance = userSqlDAO.GetUserBalanceFromReader(user.UserId);
-            if(balance >= 0)
+            int userId = int.Parse(this.User.FindFirst("sub").Value);
+            Account account = userSqlDAO.GetUserBalanceFromReader(userId);
+            if(account.Balance >= 0)
             {
-                return Ok(balance);
+                return Ok(account.Balance);
             }
             else
             {

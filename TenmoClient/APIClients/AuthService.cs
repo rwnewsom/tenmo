@@ -80,9 +80,9 @@ namespace TenmoClient
             }
         }
 
-        public decimal GetBalance(int userId)
+        public decimal GetBalance()
         {
-            RestRequest request = new RestRequest(API_BASE_URL + userId);
+            RestRequest request = new RestRequest(API_BASE_URL);
 
             IRestResponse<decimal> response = client.Get<decimal>(request);
 
