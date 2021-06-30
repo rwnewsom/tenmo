@@ -109,7 +109,7 @@ namespace TenmoServer.DAO
                 conn.Open();
 
                 //
-                SqlCommand cmd = new SqlCommand("SELECT balance FROM accounts a INNER JOIN users u on a.user_id = u.user_id WHERE u.user_id = @userid", conn);
+                SqlCommand cmd = new SqlCommand("SELECT balance, account_id, a.user_id FROM accounts a INNER JOIN users u on a.user_id = u.user_id WHERE u.user_id = @userid", conn);
                 cmd.Parameters.AddWithValue("@userid", userId);
                 SqlDataReader reader = cmd.ExecuteReader();
 

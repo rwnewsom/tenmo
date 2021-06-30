@@ -15,11 +15,11 @@ namespace TenmoServer.Controllers
     [Authorize]
     public class TransactionController : ControllerBase
     {
-        private UserSqlDAO userSqlDAO;
+        private IUserDAO userSqlDAO;
 
 
 
-        public TransactionController(UserSqlDAO userSqlDAO)
+        public TransactionController(IUserDAO userSqlDAO)
         {
             this.userSqlDAO = userSqlDAO;
             
@@ -33,7 +33,7 @@ namespace TenmoServer.Controllers
             Account account = userSqlDAO.GetUserBalanceFromReader(userId);
             if(account.Balance >= 0)
             {
-                return Ok(account.Balance);
+                return Ok(account);
             }
             else
             {

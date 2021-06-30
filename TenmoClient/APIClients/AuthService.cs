@@ -80,25 +80,8 @@ namespace TenmoClient
             }
         }
 
-        public decimal GetBalance()
-        {
-            RestRequest request = new RestRequest(API_BASE_URL);
 
-            IRestResponse<decimal> response = client.Get<decimal>(request);
-
-            if (response.ResponseStatus != ResponseStatus.Completed)
-            {
-                Console.WriteLine("Could not connect to the server");
-                return 0;
-            }
-
-            if (!response.IsSuccessful)
-            {
-                Console.WriteLine("Oh noes! An error occurred: " + response.StatusDescription);
-                return 0;
-            }
-
-            return response.Data;
-        }
+        //balance was here - moved to TransactionServices
+       
     }
 }

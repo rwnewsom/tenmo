@@ -7,6 +7,7 @@ namespace TenmoClient
     {
         private readonly ConsoleService consoleService = new ConsoleService();
         private readonly AuthService authService = new AuthService();
+        private readonly TransactionService transactionService = new TransactionService();
 
         private bool quitRequested = false;
 
@@ -133,11 +134,13 @@ namespace TenmoClient
         }
 
         
+        //modified this
         private void ShowAccountBalance()
         {
-            decimal accountBalance = authService.GetBalance();
-
-            Console.WriteLine(accountBalance);
+            Account account = transactionService.Balance();
+            decimal balance = account.Balance;
+            Console.WriteLine("Current balance is: " + balance.ToString("c"));
+            //Console.WriteLine((decimal)authService.Balance);
         }
         
     }
