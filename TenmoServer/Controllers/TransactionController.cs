@@ -15,18 +15,19 @@ namespace TenmoServer.Controllers
     [Authorize]
     public class TransactionController : ControllerBase
     {
-        private readonly IUserDAO userSqlDAO;
+        private UserSqlDAO userSqlDAO;
 
 
-        public TransactionController(IUserDAO _userSqlDAO)
+
+        public TransactionController(UserSqlDAO userSqlDAO)
         {
-            userSqlDAO = _userSqlDAO;
+            this.userSqlDAO = userSqlDAO;
             
         }
 
-        /*
+        
         [HttpGet]
-        public IActionResult GetBalance(User user)
+        public IActionResult GetBalance()
         {
             decimal balance = userSqlDAO.GetUserBalanceFromReader(user.UserId);
             if(balance >= 0)
@@ -37,7 +38,8 @@ namespace TenmoServer.Controllers
             {
                 return NotFound("Account balance does not exist");
             } 
+
         }
-        */
+        
     }
 }

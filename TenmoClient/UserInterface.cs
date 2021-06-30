@@ -132,12 +132,13 @@ namespace TenmoClient
             }
         }
 
-        /*
+        
         private void ShowAccountBalance()
         {
-            decimal accountBalance = 
+            decimal accountBalance = 0;
+
 
         }
-        */
+        
     }
 }

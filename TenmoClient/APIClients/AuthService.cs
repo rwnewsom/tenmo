@@ -79,5 +79,26 @@ namespace TenmoClient
                 return response.Data;
             }
         }
+
+        public decimal GetBalance(int userId)
+        {
+            RestRequest request = new RestRequest(API_BASE_URL + userId);
+
+            IRestResponse<decimal> response = client.Get<decimal>(request);
+
+            if (response.ResponseStatus != ResponseStatus.Completed)
+            {
+                Console.WriteLine("Could not connect to the server");
+                return 0;
+            }
+
+            if (!response.IsSuccessful)
+            {
+                Console.WriteLine("Oh noes! An error occurred: " + response.StatusDescription);
+                return 0;
+            }
+
+            return response.Data;
+        }
     }
 }
