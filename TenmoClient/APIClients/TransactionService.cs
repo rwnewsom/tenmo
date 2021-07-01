@@ -2,6 +2,8 @@
 using RestSharp;
 using RestSharp.Authenticators;
 using TenmoClient.Data;
+using System.Net;
+using System.Collections.Generic;
 
 namespace TenmoClient//adding class to limit authServices responsibility
 {
@@ -40,6 +42,24 @@ namespace TenmoClient//adding class to limit authServices responsibility
             }
 
             return response.Data;
+        }
+
+        public List<RecipientUser> GetRecipientUsers()
+        {
+            RestRequest request = new RestRequest(BASE_URL + "recipients");
+
+            IRestResponse<List<RecipientUser>> response = client.Get<List<RecipientUser>>(request);
+
+            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
+            {
+                return response.Data;
+            }
+            else
+            {
+                Console.WriteLine("An error occurred fetching users");
+
+                return new List<RecipientUser>();
+            }
         }
     }
 }

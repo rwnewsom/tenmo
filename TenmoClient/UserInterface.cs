@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TenmoClient.Data;
 
 namespace TenmoClient
@@ -79,7 +80,7 @@ namespace TenmoClient
                             ShowAccountBalance(); // TODO: Implement me
                             break;
                         case 2: // View Past Transfers
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            GetRecipientUsers(); // TODO: Implement me
                             break;
                         case 3: // View Pending Requests
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -139,8 +140,8 @@ namespace TenmoClient
         {
             Console.Clear();
             Account account = transactionService.Balance();
-            int userId = account.User_Id;
-            int accountId = account.Account_Id;
+            int userId = account.UserId;
+            int accountId = account.AccountId;
             decimal balance = account.Balance;
             Console.WriteLine("User Id: " + userId); //added to test
             Console.WriteLine("Account Id: " + accountId); //added to test
@@ -148,5 +149,16 @@ namespace TenmoClient
             //Console.WriteLine((decimal)authService.Balance);
         }
         
+        public void GetRecipientUsers()
+        {
+            List<RecipientUser> recipients = transactionService.GetRecipientUsers();
+            foreach (RecipientUser r in recipients)
+            {
+                Console.WriteLine("userId: " + r.UserId + "username: " + r.UserName);
+                Console.WriteLine();
+            }
+
+        }
+
     }
 }

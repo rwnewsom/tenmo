@@ -118,15 +118,47 @@ namespace TenmoServer.DAO
                 while (reader.HasRows && reader.Read()) //changed from if
                 {
 
-                    account.User_Id = Convert.ToInt32(reader["userid"]);
-                    account.Account_Id = Convert.ToInt32(reader["aid"]);
+                    account.UserId = Convert.ToInt32(reader["userid"]);
+                    account.AccountId = Convert.ToInt32(reader["aid"]);
                     account.Balance = Convert.ToDecimal(reader["balance"]);
-                return account;
+                    return account;
                 }
-            return null;
+                return null;
             }
         }
+        private RecipientUser GetRecipientUserFromReader(SqlDataReader reader)
+        {
+            return new RecipientUser()
+            {
+                UserId = Convert.ToInt32(reader["user_id"]),
+                Username = Convert.ToString(reader["username"])
+            };
+        }
 
+        public List<RecipientUser> GetRecipientUsers()
+        {
+            List<RecipientUser> returnUsers = new List<RecipientUser>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT user_id, username FROM users", conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        RecipientUser u = GetRecipientUserFromReader(reader);
+                        returnUsers.Add(u);
+                    }
+
+                }
+                return returnUsers;
+            }
+
+        }
     }
 }
 

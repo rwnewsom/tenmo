@@ -42,5 +42,11 @@ namespace TenmoServer.Controllers
 
         }
         
+        [HttpGet("recipients")]
+        public ActionResult<List<RecipientUser>> GetRecipientUsers()
+        {
+             return Ok(userSqlDAO.GetRecipientUsers());
+        }
+        
     }
 }
