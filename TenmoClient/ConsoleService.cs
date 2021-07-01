@@ -90,5 +90,27 @@ namespace TenmoClient
             return recipientId;
         }
 
+        public decimal PromptForDecimal(string message)
+        {
+            string userInput;
+            decimal decimalValue;
+            int numberOfAttempts = 0;
+
+            do
+            {
+                if (numberOfAttempts > 0)
+                {
+                    Console.WriteLine("Invalid input format. Please try again");
+                }
+
+                Console.Write(message + " ");
+                userInput = Console.ReadLine();
+                numberOfAttempts++;
+            }
+            while (!decimal.TryParse(userInput, out decimalValue));
+
+            return decimalValue;
+        }
+
     }
 }

@@ -21,5 +21,7 @@ namespace TenmoServer.Models
         /// The amount in US Dollars to be transferred
         /// </summary>
         public decimal Amount { get; set; }
+
+        //public int TransferId { get; set; }
     }
 }

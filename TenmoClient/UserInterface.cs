@@ -164,7 +164,7 @@ namespace TenmoClient
                 Console.WriteLine(r.UserId.ToString().PadRight(10) + r.UserName.PadRight(20));
             }
             Console.WriteLine();
-            int recipientId = consoleService.PromptForRecipientID();
+            int recipientId = consoleService.PromptForRecipientID(); // for transfer object
 
             bool validRecipient = false;
             foreach (RecipientUser r in recipients) 
@@ -182,6 +182,32 @@ namespace TenmoClient
             }            
 
             Console.WriteLine("You have selected user ID: " + recipientId);
+            Console.WriteLine("You current ID: " + currentUserId); //for transfer object
+            decimal transferAmount = GetTransferAmount();
+
+            Account account = transactionService.Balance();
+            //int userId = account.UserId;
+            //int accountId = account.AccountId;
+            decimal balance = account.Balance;
+
+            if (transferAmount > balance)
+            {
+                Console.WriteLine("Amount requested exceeds funds available.");
+            }
+            else
+            {
+                Transfer transfer = transactionService.CreateTransfer(currentUserId,recipientId,transferAmount);
+                Console.WriteLine($"FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}");
+            }
+            //manual test that object created
+        }
+
+        public decimal GetTransferAmount()
+        {
+            
+            decimal transferAmount = consoleService.PromptForDecimal("How Much would you like to transfer?");
+            Console.WriteLine("Amount requested: " + transferAmount.ToString("c"));
+            return transferAmount;
         }
 
     }

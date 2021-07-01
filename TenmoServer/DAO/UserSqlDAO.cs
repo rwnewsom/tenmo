@@ -132,7 +132,7 @@ namespace TenmoServer.DAO
                 Username = Convert.ToString(reader["username"])
             };
         }
-
+        //ToDo: add server piece
         public List<RecipientUser> GetRecipientUsers()
         {
 

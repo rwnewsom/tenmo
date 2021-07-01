@@ -62,5 +62,39 @@ namespace TenmoClient//adding class to limit authServices responsibility
                 return new List<RecipientUser>();
             }
         }
+
+
+        public Transfer CreateTransfer(int currentUserId, int recipientId, decimal transferAmount)
+        {
+            Transfer transfer = new Transfer()
+            {
+                ToUserId = recipientId,
+                FromUserId = currentUserId,
+                Amount = transferAmount                
+            };
+
+            RestRequest request = new RestRequest(BASE_URL + "/transfer");
+            request.AddHeader("Authorization", "bearer " + UserService.Token);
+            request.AddJsonBody(transfer);
+
+            IRestResponse<Transfer> response = client.Post<Transfer>(request);
+
+            if (response.ResponseStatus != ResponseStatus.Completed)
+            {
+                Console.WriteLine("Could not connect to the server");
+                return null;
+            }
+
+            if (!response.IsSuccessful)
+            {
+                Console.WriteLine("Oh noes! An error occurred: " + response.StatusDescription);
+                return null;
+            }
+
+            Transfer createdTransfer = response.Data;
+
+            return createdTransfer;
+
+        }
     }
 }
