@@ -70,5 +70,20 @@ namespace TenmoClient
 
             return pass;
         }
+
+        public int PromptForRecipientID()
+        {
+            Console.WriteLine("");
+            Console.Write($"Please enter the desired recipient ID (0 to cancel): ");
+
+            if (!int.TryParse(Console.ReadLine(), out int recipientId))
+            {
+                Console.WriteLine("Invalid input. Only input a number.");
+                return 0;
+            }
+
+            return recipientId;
+        }
+
     }
 }
