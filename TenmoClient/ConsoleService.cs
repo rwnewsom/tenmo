@@ -82,6 +82,11 @@ namespace TenmoClient
                 return 0;
             }
 
+            if (recipientId == 0)
+            {
+                return 0;
+            }
+
             return recipientId;
         }
 

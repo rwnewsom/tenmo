@@ -11,6 +11,7 @@ namespace TenmoClient
         private readonly TransactionService transactionService = new TransactionService();
 
         private bool quitRequested = false;
+        private int currentUserId = -1;
 
         public void Start()
         {
@@ -77,7 +78,7 @@ namespace TenmoClient
                     switch (menuSelection)
                     {
                         case 1: // View Balance
-                            ShowAccountBalance(); // TODO: Implement me
+                            ShowAccountBalance(); // TODONE!
                             break;
                         case 2: // View Past Transfers
                             Console.WriteLine("NOT IMPLEMENTED!");
@@ -132,6 +133,7 @@ namespace TenmoClient
                 if (user != null)
                 {
                     UserService.SetLogin(user);
+                    currentUserId = user.UserId;
                 }
             }
         }
@@ -153,7 +155,7 @@ namespace TenmoClient
         
         public void GetRecipientUsers()
         {
-            Console.Clear();
+            Console.Clear(); 
             Console.WriteLine("The Following Recipients are available:");
             List<RecipientUser> recipients = transactionService.GetRecipientUsers();
                 Console.WriteLine("Id:".PadRight(10) + "Name".PadRight(20));
@@ -161,7 +163,25 @@ namespace TenmoClient
             {
                 Console.WriteLine(r.UserId.ToString().PadRight(10) + r.UserName.PadRight(20));
             }
+            Console.WriteLine();
+            int recipientId = consoleService.PromptForRecipientID();
 
+            bool validRecipient = false;
+            foreach (RecipientUser r in recipients) 
+            {
+                if (recipientId == r.UserId)
+                {
+                    validRecipient = true;
+                }
+            }
+
+            if (!validRecipient)
+            {
+                Console.WriteLine("Error, recipient not found.");
+                return;
+            }            
+
+            Console.WriteLine("You have selected user ID: " + recipientId);
         }
 
     }
