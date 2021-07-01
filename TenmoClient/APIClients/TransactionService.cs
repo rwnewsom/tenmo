@@ -24,7 +24,7 @@ namespace TenmoClient//adding class to limit authServices responsibility
 
         public Account Balance() //change from derived property to method???  -- DONE
         {
-            RestRequest request = new RestRequest(BASE_URL); //added path
+            RestRequest request = new RestRequest(BASE_URL);
             request.AddHeader("Authorization", "bearer " + UserService.Token);
 
             IRestResponse<Account> response = client.Get<Account>(request);
@@ -46,7 +46,8 @@ namespace TenmoClient//adding class to limit authServices responsibility
 
         public List<RecipientUser> GetRecipientUsers()
         {
-            RestRequest request = new RestRequest(BASE_URL + "recipients");
+            RestRequest request = new RestRequest(BASE_URL + "/recipients");
+            request.AddHeader("Authorization", "bearer " + UserService.Token);//Added header
 
             IRestResponse<List<RecipientUser>> response = client.Get<List<RecipientUser>>(request);
 

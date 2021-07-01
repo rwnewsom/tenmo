@@ -80,13 +80,15 @@ namespace TenmoClient
                             ShowAccountBalance(); // TODO: Implement me
                             break;
                         case 2: // View Past Transfers
-                            GetRecipientUsers(); // TODO: Implement me
+                            Console.WriteLine("NOT IMPLEMENTED!");
+                             // TODO: Implement me
                             break;
                         case 3: // View Pending Requests
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
                         case 4: // Send TE Bucks
-                            Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            GetRecipientUsers();
+                            //Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
                         case 5: // Request TE Bucks
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -151,11 +153,13 @@ namespace TenmoClient
         
         public void GetRecipientUsers()
         {
+            Console.Clear();
+            Console.WriteLine("The Following Recipients are available:");
             List<RecipientUser> recipients = transactionService.GetRecipientUsers();
+                Console.WriteLine("Id:".PadRight(10) + "Name".PadRight(20));
             foreach (RecipientUser r in recipients)
             {
-                Console.WriteLine("userId: " + r.UserId + "username: " + r.UserName);
-                Console.WriteLine();
+                Console.WriteLine(r.UserId.ToString().PadRight(10) + r.UserName.PadRight(20));
             }
 
         }

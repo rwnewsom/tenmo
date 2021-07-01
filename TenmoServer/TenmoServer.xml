@@ -14,6 +14,21 @@
             Model to return upon successful login
             </summary>
         </member>
+        <member name="P:TenmoServer.Models.Transfer.FromUserId">
+            <summary>
+            The ID of the user SENDING funds
+            </summary>
+        </member>
+        <member name="P:TenmoServer.Models.Transfer.ToUserId">
+            <summary>
+            The ID of the user RECEIVING funds
+            </summary>
+        </member>
+        <member name="P:TenmoServer.Models.Transfer.Amount">
+            <summary>
+            The amount in US Dollars to be transferred
+            </summary>
+        </member>
         <member name="T:TenmoServer.Security.IPasswordHasher">
             <summary>
             Represents a password hasher.

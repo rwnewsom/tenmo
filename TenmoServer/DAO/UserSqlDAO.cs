@@ -108,8 +108,6 @@ namespace TenmoServer.DAO
             {
                 conn.Open();
 
-                //"SELECT sp.name AS 'spname', sp.is_accessible AS 'acc', sp.open_from AS 'openfrom', sp.open_to AS 'opento', sp.daily_rate AS 'rate', sp.max_occupancy AS 'maxocp'" +
-                // "FROM space sp INNER JOIN venue v ON v.id = sp.venue_id WHERE v.id = @vid";
                 SqlCommand cmd = new SqlCommand("SELECT balance, account_id AS 'aid', a.user_id AS 'userid' FROM accounts a INNER JOIN users u on a.user_id = u.user_id WHERE u.user_id = @userid", conn);
                 cmd.Parameters.AddWithValue("@userid", userId);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -130,27 +128,27 @@ namespace TenmoServer.DAO
         {
             return new RecipientUser()
             {
-                UserId = Convert.ToInt32(reader["user_id"]),
+                UserId = Convert.ToInt32(reader["userid"]),
                 Username = Convert.ToString(reader["username"])
             };
         }
 
         public List<RecipientUser> GetRecipientUsers()
         {
-            List<RecipientUser> returnUsers = new List<RecipientUser>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT user_id, username FROM users", conn);
+                SqlCommand cmd = new SqlCommand("SELECT user_id AS 'userid', username FROM users", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
+                List<RecipientUser> returnUsers = new List<RecipientUser>();//changed position
 
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        RecipientUser u = GetRecipientUserFromReader(reader);
+                        RecipientUser u = GetRecipientUserFromReader(reader); 
                         returnUsers.Add(u);
                     }
 
