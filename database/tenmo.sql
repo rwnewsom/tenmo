@@ -66,5 +66,5 @@ INSERT INTO transfer_types (transfer_type_desc) VALUES ('Request');
 INSERT INTO transfer_types (transfer_type_desc) VALUES ('Send');
 
 BEGIN TRANSACTION
-SELECT balance FROM accounts
+SELECT balance, account_id, a.user_id FROM accounts a INNER JOIN users u on a.user_id = u.user_id WHERE u.user_id = 3000
 ROLLBACK TRANSACTION

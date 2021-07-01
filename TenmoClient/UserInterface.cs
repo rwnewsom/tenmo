@@ -137,8 +137,13 @@ namespace TenmoClient
         //modified this
         private void ShowAccountBalance()
         {
+            Console.Clear();
             Account account = transactionService.Balance();
+            int userId = account.User_Id;
+            int accountId = account.Account_Id;
             decimal balance = account.Balance;
+            Console.WriteLine("User Id: " + userId); //added to test
+            Console.WriteLine("Account Id: " + accountId); //added to test
             Console.WriteLine("Current balance is: " + balance.ToString("c"));
             //Console.WriteLine((decimal)authService.Balance);
         }

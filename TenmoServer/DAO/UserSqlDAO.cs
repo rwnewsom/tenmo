@@ -108,24 +108,25 @@ namespace TenmoServer.DAO
             {
                 conn.Open();
 
-                //
-                SqlCommand cmd = new SqlCommand("SELECT balance, account_id, a.user_id FROM accounts a INNER JOIN users u on a.user_id = u.user_id WHERE u.user_id = @userid", conn);
+                //"SELECT sp.name AS 'spname', sp.is_accessible AS 'acc', sp.open_from AS 'openfrom', sp.open_to AS 'opento', sp.daily_rate AS 'rate', sp.max_occupancy AS 'maxocp'" +
+                // "FROM space sp INNER JOIN venue v ON v.id = sp.venue_id WHERE v.id = @vid";
+                SqlCommand cmd = new SqlCommand("SELECT balance, account_id AS 'aid', a.user_id AS 'userid' FROM accounts a INNER JOIN users u on a.user_id = u.user_id WHERE u.user_id = @userid", conn);
                 cmd.Parameters.AddWithValue("@userid", userId);
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                if (reader.HasRows && reader.Read())
+                Account account = new Account();
+                while (reader.HasRows && reader.Read()) //changed from if
                 {
-                    Account account = new Account()
-                    {
-                        User_Id = Convert.ToInt32(reader["user_id"]),
-                        Account_Id = Convert.ToInt32(reader["account_id"]),
-                        Balance = Convert.ToDecimal(reader["balance"]),
-                    };
+
+                    account.User_Id = Convert.ToInt32(reader["userid"]);
+                    account.Account_Id = Convert.ToInt32(reader["aid"]);
+                    account.Balance = Convert.ToDecimal(reader["balance"]);
                 return account;
                 }
-                return null;
+            return null;
             }
-
         }
+
     }
 }
+
