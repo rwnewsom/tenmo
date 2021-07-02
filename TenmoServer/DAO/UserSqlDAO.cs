@@ -148,7 +148,7 @@ namespace TenmoServer.DAO
                 {
                     while (reader.Read())
                     {
-                        RecipientUser u = GetRecipientUserFromReader(reader); 
+                        RecipientUser u = GetRecipientUserFromReader(reader);
                         returnUsers.Add(u);
                     }
 
@@ -156,6 +156,24 @@ namespace TenmoServer.DAO
                 return returnUsers;
             }
 
+        }
+        public Transfer SendMoney(Transfer transfer)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("UPDATE accounts SET balance = balance + @amount WHERE user_id = @user_id; SELECT @@IDENTITY;", conn);
+                cmd.Parameters.AddWithValue("@amount", transfer.Amount);
+                cmd.Parameters.AddWithValue("@user_id", transfer.ToUserId);
+
+                transfer.TransferId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                SqlCommand cmdTo = new SqlCommand("UPDATE accounts SET balance = balance - @amount WHERE user_id = @user_id; SELECT @@IDENTITY;", conn);
+                cmd.Parameters.AddWithValue("@amount", transfer.Amount);
+                cmd.Parameters.AddWithValue("@user_id", transfer.FromUserId);
+            }
+            return transfer;
         }
     }
 }

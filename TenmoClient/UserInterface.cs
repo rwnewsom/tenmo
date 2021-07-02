@@ -197,10 +197,11 @@ namespace TenmoClient
             else
             {
                 Transfer transfer = transactionService.CreateTransfer(currentUserId,recipientId,transferAmount);
-                Console.WriteLine($"FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}");
+                //Console.WriteLine($"FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}");
             }
             //manual test that object created
         }
+
 
         public decimal GetTransferAmount()
         {
@@ -209,6 +210,8 @@ namespace TenmoClient
             Console.WriteLine("Amount requested: " + transferAmount.ToString("c"));
             return transferAmount;
         }
+
+
 
     }
 }
