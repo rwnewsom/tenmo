@@ -57,6 +57,8 @@ namespace TenmoServer.Controllers
             {
                 throw new Exception("Overdraft not permitted");
             }
+            transfer.AccountFrom = receivingAccount.AccountId;
+            transfer.AccountTo = sendingAccount.AccountId;
             Transfer newTransfer = this.userSqlDAO.PostTransfer(transfer);
             return Created($"/transfer/{newTransfer.TransferId}", newTransfer);
 
