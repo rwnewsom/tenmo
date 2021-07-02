@@ -197,7 +197,11 @@ namespace TenmoClient
             else
             {
                 Transfer transfer = transactionService.CreateTransfer(currentUserId,recipientId,transferAmount);
-                //Console.WriteLine($"FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}");
+
+                int newTransferId = transfer.TransferId;
+                Console.WriteLine($"Success!FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}\nID: {transfer.TransferId} ");
+                
+                //Console.WriteLine($"");
             }
             //manual test that object created
         }

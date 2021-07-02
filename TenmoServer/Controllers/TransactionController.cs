@@ -51,7 +51,7 @@ namespace TenmoServer.Controllers
         [HttpPost("transfer")]
         public ActionResult SendMoney(Transfer transfer)
         {
-            Transfer newTransfer = this.userSqlDAO.SendMoney(transfer);
+            Transfer newTransfer = this.userSqlDAO.PostTransfer(transfer);
             return Created($"/transfer/{newTransfer.TransferId}", newTransfer);
         }
 

@@ -157,21 +157,20 @@ namespace TenmoServer.DAO
             }
 
         }
-        public Transfer SendMoney(Transfer transfer)
+        public Transfer PostTransfer(Transfer transfer)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-
-                SqlCommand cmd = new SqlCommand("UPDATE accounts SET balance = balance + @amount WHERE user_id = @user_id; SELECT @@IDENTITY;", conn);
+                // INSERT INTO transfers VALUES(1001, 2001, @accountFrom, @accountTo); //TODO: need to get account numbers!
+                SqlCommand cmd = new SqlCommand("UPDATE accounts SET balance = balance - @amount WHERE user_id = @fromUser_id; UPDATE accounts SET balance = balance + @amount WHERE user_id = @toUser_id; SELECT @@IDENTITY;", conn);
                 cmd.Parameters.AddWithValue("@amount", transfer.Amount);
-                cmd.Parameters.AddWithValue("@user_id", transfer.ToUserId);
-
-                transfer.TransferId = Convert.ToInt32(cmd.ExecuteScalar());
-
-                SqlCommand cmdTo = new SqlCommand("UPDATE accounts SET balance = balance - @amount WHERE user_id = @user_id; SELECT @@IDENTITY;", conn);
-                cmd.Parameters.AddWithValue("@amount", transfer.Amount);
-                cmd.Parameters.AddWithValue("@user_id", transfer.FromUserId);
+                cmd.Parameters.AddWithValue("@toUser_id", transfer.ToUserId);
+                cmd.Parameters.AddWithValue("@fromUser_id", transfer.FromUserId);
+                //transfer.TransferId = Convert.ToInt32(cmd.ExecuteScalar());       //keeps returning null...    because we aren't inserting anything!   
+                //int createdId = Convert.ToInt32(cmd.ExecuteScalar());
+                //transfer.TransferId = createdId;
+                cmd.ExecuteNonQuery();
             }
             return transfer;
         }
