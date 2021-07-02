@@ -51,8 +51,15 @@ namespace TenmoServer.Controllers
         [HttpPost("transfer")]
         public ActionResult SendMoney(Transfer transfer)
         {
+            Account sendingAccount = userSqlDAO.GetUserBalanceFromReader(transfer.FromUserId);
+            Account receivingAccount = userSqlDAO.GetUserBalanceFromReader(transfer.ToUserId);
+            if (sendingAccount.Balance < transfer.Amount)
+            {
+                throw new Exception("Overdraft not permitted");
+            }
             Transfer newTransfer = this.userSqlDAO.PostTransfer(transfer);
             return Created($"/transfer/{newTransfer.TransferId}", newTransfer);
+
         }
 
 

@@ -106,6 +106,7 @@ namespace TenmoServer.DAO
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
+
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("SELECT balance, account_id AS 'aid', a.user_id AS 'userid' FROM accounts a INNER JOIN users u on a.user_id = u.user_id WHERE u.user_id = @userid", conn);
