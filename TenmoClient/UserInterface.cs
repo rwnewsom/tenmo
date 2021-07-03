@@ -12,6 +12,7 @@ namespace TenmoClient
 
         private bool quitRequested = false;
         private int currentUserId = -1;
+        private string currentUserName = "";
 
         public void Start()
         {
@@ -58,7 +59,7 @@ namespace TenmoClient
             do
             {
                 Console.WriteLine();
-                Console.WriteLine("Welcome to TEnmo! Please make a selection: ");
+                Console.WriteLine($"Welcome to TEnmo, {currentUserName}! Please make a selection: ");
                 Console.WriteLine("1: View your current balance");
                 Console.WriteLine("2: View your past transfers");
                 Console.WriteLine("3: View your pending requests");
@@ -133,6 +134,7 @@ namespace TenmoClient
                 {
                     UserService.SetLogin(user);
                     currentUserId = user.UserId;
+                    currentUserName = user.Username;
                 }
             }
         }
@@ -161,13 +163,15 @@ namespace TenmoClient
             }
             Console.WriteLine();
             int recipientId = consoleService.PromptForRecipientID(); // for transfer object
-
+            //string fromUserName = "";
+            string toUserName = "";
             bool validRecipient = false;
             foreach (RecipientUser r in recipients)
             {
                 if (recipientId == r.UserId)
                 {
                     validRecipient = true;
+                    toUserName = r.UserName;
                 }
             }
 
@@ -189,8 +193,9 @@ namespace TenmoClient
             }
             else
             {
-                Transfer transfer = transactionService.CreateTransfer(currentUserId, recipientId, transferAmount);
+                Transfer transfer = transactionService.CreateTransfer(currentUserId, recipientId, transferAmount, currentUserName, toUserName);
                 Console.WriteLine($"Success!FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}\nID: {transfer.TransferId} ");
+                Console.WriteLine($"From:{transfer.FromUserName}   To:{transfer.ToUserName}");
             }
         }
 

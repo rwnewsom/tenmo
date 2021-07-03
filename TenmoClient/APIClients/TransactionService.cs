@@ -64,13 +64,15 @@ namespace TenmoClient//adding class to limit authServices responsibility
         }
 
 
-        public Transfer CreateTransfer(int currentUserId, int recipientId, decimal transferAmount)
+        public Transfer CreateTransfer(int currentUserId, int recipientId, decimal transferAmount, string fromUserName, string toUserName)
         {
             Transfer transfer = new Transfer()
             {
                 ToUserId = recipientId,
                 FromUserId = currentUserId,
-                Amount = transferAmount                
+                Amount = transferAmount,
+                FromUserName = fromUserName,
+                ToUserName = toUserName
             };
 
             RestRequest request = new RestRequest(BASE_URL + "/transfer");
