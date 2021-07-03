@@ -35,5 +35,17 @@ namespace TenmoServer.Models
         public int TransferId { get; set; }
         public int AccountFrom { get; set; }
         public int AccountTo { get; set; }
+
+        public string FromUserName { get; set; }
+
+        public string ToUserName { get; set; }
+        /// <summary>
+        /// Request or Send
+        /// </summary>
+        public string TypeDescription { get; set; }
+        /// <summary>
+        /// Approved, Pending or Rejected
+        /// </summary>
+        public string StatusDescription { get; set; }
     }
 }

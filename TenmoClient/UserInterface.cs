@@ -82,14 +82,13 @@ namespace TenmoClient
                             break;
                         case 2: // View Past Transfers
                             Console.WriteLine("NOT IMPLEMENTED!");
-                             // TODO: Implement me
+                            // TODO: Implement me
                             break;
                         case 3: // View Pending Requests
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
                             break;
                         case 4: // Send TE Bucks
-                            GetRecipientUsers();
-                            //Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
+                            GetRecipientUsers(); // !TODONE
                             break;
                         case 5: // Request TE Bucks
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -138,8 +137,6 @@ namespace TenmoClient
             }
         }
 
-        
-        //modified this
         private void ShowAccountBalance()
         {
             Console.Clear();
@@ -150,15 +147,14 @@ namespace TenmoClient
             Console.WriteLine("User Id: " + userId); //added to test
             Console.WriteLine("Account Id: " + accountId); //added to test
             Console.WriteLine("Current balance is: " + balance.ToString("c"));
-            //Console.WriteLine((decimal)authService.Balance);
         }
-        
+
         public void GetRecipientUsers()
         {
-            Console.Clear(); 
+            Console.Clear();
             Console.WriteLine("The Following Recipients are available:");
             List<RecipientUser> recipients = transactionService.GetRecipientUsers();
-                Console.WriteLine("Id:".PadRight(10) + "Name".PadRight(20));
+            Console.WriteLine("Id:".PadRight(10) + "Name".PadRight(20));
             foreach (RecipientUser r in recipients)
             {
                 Console.WriteLine(r.UserId.ToString().PadRight(10) + r.UserName.PadRight(20));
@@ -167,7 +163,7 @@ namespace TenmoClient
             int recipientId = consoleService.PromptForRecipientID(); // for transfer object
 
             bool validRecipient = false;
-            foreach (RecipientUser r in recipients) 
+            foreach (RecipientUser r in recipients)
             {
                 if (recipientId == r.UserId)
                 {
@@ -179,15 +175,12 @@ namespace TenmoClient
             {
                 Console.WriteLine("Error, recipient not found.");
                 return;
-            }            
+            }
 
-            Console.WriteLine("You have selected user ID: " + recipientId);
-            Console.WriteLine("You current ID: " + currentUserId); //for transfer object
+            //Console.WriteLine("You have selected user ID: " + recipientId);
+            //Console.WriteLine("You current ID: " + currentUserId);
             decimal transferAmount = GetTransferAmount();
-
             Account account = transactionService.Balance();
-            //int userId = account.UserId;
-            //int accountId = account.AccountId;
             decimal balance = account.Balance;
 
             if (transferAmount > balance)
@@ -196,26 +189,16 @@ namespace TenmoClient
             }
             else
             {
-                Transfer transfer = transactionService.CreateTransfer(currentUserId,recipientId,transferAmount);
-
-                int newTransferId = transfer.TransferId;
+                Transfer transfer = transactionService.CreateTransfer(currentUserId, recipientId, transferAmount);
                 Console.WriteLine($"Success!FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}\nID: {transfer.TransferId} ");
-                
-                //Console.WriteLine($"");
             }
-            //manual test that object created
         }
-
 
         public decimal GetTransferAmount()
         {
-            
             decimal transferAmount = consoleService.PromptForDecimal("How Much would you like to transfer?");
             Console.WriteLine("Amount requested: " + transferAmount.ToString("c"));
             return transferAmount;
         }
-
-
-
     }
 }
