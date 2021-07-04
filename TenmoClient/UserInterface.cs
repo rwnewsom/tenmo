@@ -212,13 +212,23 @@ namespace TenmoClient
 
             foreach (Transfer t in userTransfers)
             {
-
-
                 Console.WriteLine($"{t.TransferId.ToString().PadRight(10)}From:{t.FromUserName.PadRight(15)}To:{t.ToUserName.PadRight(15)}{t.Amount.ToString("c")}");
-
-
             }
-
+            Console.WriteLine("Which transaction would you like to review?");
+            string reply = Console.ReadLine();
+            int requested = int.Parse(reply);
+            foreach (Transfer t in userTransfers)
+            {
+                if (t.TransferId == requested)
+                {
+                    Console.WriteLine("Id: " + t.TransferId);
+                    Console.WriteLine("From: " + t.FromUserName);
+                    Console.WriteLine("To: " + t.ToUserName);
+                    Console.WriteLine("Type: " + t.TypeDescription);
+                    Console.WriteLine("Status: " + t.StatusDescription);
+                    Console.WriteLine("Amount: " + t.Amount.ToString("c"));
+                }
+            }
         }
 
         public decimal GetTransferAmount()
@@ -227,5 +237,6 @@ namespace TenmoClient
             Console.WriteLine("Amount requested: " + transferAmount.ToString("c"));
             return transferAmount;
         }
+
     }
 }
