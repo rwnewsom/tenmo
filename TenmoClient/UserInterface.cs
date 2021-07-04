@@ -11,14 +11,14 @@ namespace TenmoClient
         private readonly TransactionService transactionService = new TransactionService();
 
         private bool quitRequested = false;
-        private int currentUserId = -1; //TODO: wipe these on logout!
+        private int currentUserId = -1; //TODONE: wipe these on logout!
         private string currentUserName = "";
 
         public void Start()
         {
             while (!quitRequested)
             {
-                while (!authService.IsLoggedIn)
+                while (!UserService.IsLoggedIn)  //Was !authService.IsLoggedIn
                 {
                     ShowLogInMenu();
                 }
@@ -95,6 +95,8 @@ namespace TenmoClient
                             break;
                         case 6: // Log in as someone else
                             Console.WriteLine();
+                            currentUserId = -1; //reset these on logout!
+                            currentUserName = "";
                             UserService.ClearLoggedInUser(); //wipe out previous login info
                             return; // Leaves the menu and should return as someone else
                         case 0: // Quit
