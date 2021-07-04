@@ -52,7 +52,10 @@ namespace TenmoServer.Controllers
         public ActionResult<List<Transfer>> GetUserTransfers()
         {
             int userId = int.Parse(this.User.FindFirst("sub").Value);
-            return Ok(userSqlDAO.GetUserTransfers(userId));
+            Account userAccount = userSqlDAO.GetUserBalanceFromReader(userId);
+            int userAccountId = userAccount.AccountId;
+
+            return Ok(userSqlDAO.GetUserTransfers(userAccountId));
         }
 
         [HttpPost("transfer")]

@@ -16,7 +16,7 @@ namespace TenmoServer.DAO
             "(SELECT username FROM users u INNER JOIN accounts a ON u.user_id = a.user_id WHERE t.account_to = a.account_id)  AS 'toName', t.amount AS 'amount', " +
             "tt.transfer_type_desc AS 'typeDescription', ts.transfer_status_desc AS 'statusDescription'  FROM transfers t " +
             "INNER JOIN accounts a ON t.account_from = a.account_id INNER JOIN users u on a.user_id = u.user_id INNER JOIN transfer_statuses ts  " +
-            "ON t.transfer_status_id = ts.transfer_status_id INNER JOIN transfer_types tt ON t.transfer_type_id = tt.transfer_type_id WHERE u.user_id = @userId";
+            "ON t.transfer_status_id = ts.transfer_status_id INNER JOIN transfer_types tt ON t.transfer_type_id = tt.transfer_type_id WHERE account_from = @accountId OR account_to = @accountId";
 
         public UserSqlDAO(string dbConnectionString)
         {
@@ -169,7 +169,7 @@ namespace TenmoServer.DAO
             "(SELECT username FROM users u INNER JOIN accounts a ON u.user_id = a.user_id WHERE t.account_to = a.account_id)  AS 'toName', t.amount AS 'amount', " +
             "tt.transfer_type_desc AS 'typeDescription', ts.transfer_status_desc AS 'statusDescription'  FROM transfers t " +
             "INNER JOIN accounts a ON t.account_from = a.account_id INNER JOIN users u on a.user_id = u.user_id INNER JOIN transfer_statuses ts  " +
-            "ON t.transfer_status_id = ts.transfer_status_id INNER JOIN transfer_types tt ON t.transfer_type_id = tt.transfer_type_id WHERE u.user_id = @userId";
+            "ON t.transfer_status_id = ts.transfer_status_id INNER JOIN transfer_types tt ON t.transfer_type_id = tt.transfer_type_id WHERE account_from = @accountId OR account_to = @accountId";
          */
 
 
@@ -188,14 +188,14 @@ namespace TenmoServer.DAO
         
 
         
-        public List<Transfer> GetUserTransfers(int userId)
+        public List<Transfer> GetUserTransfers(int accountId)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sqlGetTransfers, conn);
-                cmd.Parameters.AddWithValue("@userId", userId);
+                cmd.Parameters.AddWithValue("@accountId", accountId);
                 SqlDataReader reader = cmd.ExecuteReader();
                 
                 List<Transfer> transfers = new List<Transfer>();

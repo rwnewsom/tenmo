@@ -212,7 +212,11 @@ namespace TenmoClient
 
             foreach (Transfer t in userTransfers)
             {
-                Console.WriteLine($"{t.TransferId.ToString().PadRight(20)}{t.TypeDescription.PadRight(25)}{t.Amount.ToString("c")}");
+
+
+                Console.WriteLine($"{t.TransferId.ToString().PadRight(10)}From:{t.FromUserName.PadRight(15)}To:{t.ToUserName.PadRight(15)}{t.Amount.ToString("c")}");
+
+
             }
 
         }
