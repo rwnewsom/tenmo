@@ -10,6 +10,7 @@ namespace TenmoServer.DAO
         List<User> GetUsers();
         Account GetUserBalanceFromReader(int userId);
         List<RecipientUser> GetRecipientUsers();
+        List<Transfer> GetUserTransfers(int userId);
         Transfer PostTransfer(Transfer transfer);
     }
 

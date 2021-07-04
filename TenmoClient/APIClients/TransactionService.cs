@@ -63,6 +63,26 @@ namespace TenmoClient//adding class to limit authServices responsibility
             }
         }
 
+        public List<Transfer> GetUserTransfers()
+        {
+            RestRequest request = new RestRequest(BASE_URL + "/transfer");
+            request.AddHeader("Authorization", "bearer " + UserService.Token);
+
+            IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);
+
+            if (response.IsSuccessful && response.ResponseStatus == ResponseStatus.Completed)
+            {
+                return response.Data;
+            }
+            else
+            {
+                Console.WriteLine("An error occurred fetching users");
+
+                return new List<Transfer>();
+            }
+        }
+
+
 
         public Transfer CreateTransfer(int currentUserId, int recipientId, decimal transferAmount, string fromUserName, string toUserName)
         {

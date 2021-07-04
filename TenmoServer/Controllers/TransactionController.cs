@@ -48,6 +48,12 @@ namespace TenmoServer.Controllers
              return Ok(userSqlDAO.GetRecipientUsers());
         }
 
+        [HttpGet("transfer")]
+        public ActionResult<List<Transfer>> GetUserTransfers(int userId)
+        {
+            return Ok(userSqlDAO.GetUserTransfers(userId));
+        }
+
         [HttpPost("transfer")]
         public ActionResult SendMoney(Transfer transfer)
         {

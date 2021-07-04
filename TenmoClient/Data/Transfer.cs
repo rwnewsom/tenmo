@@ -45,10 +45,10 @@ namespace TenmoClient.Data
         /// <summary>
         /// Request or Send
         /// </summary>
-        public string TypeDescription { get; set; }
+        public string TypeDescription { get; set; } = "request";
         /// <summary>
         /// Approved, Pending or Rejected
         /// </summary>
-        public string StatusDescription { get; set; }
+        public string StatusDescription { get; set; } = "approved";
     }
 }

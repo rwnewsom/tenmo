@@ -11,7 +11,7 @@ namespace TenmoClient
         private readonly TransactionService transactionService = new TransactionService();
 
         private bool quitRequested = false;
-        private int currentUserId = -1;
+        private int currentUserId = -1; //TODO: wipe these on logout!
         private string currentUserName = "";
 
         public void Start()
@@ -195,8 +195,19 @@ namespace TenmoClient
             {
                 Transfer transfer = transactionService.CreateTransfer(currentUserId, recipientId, transferAmount, currentUserName, toUserName);
                 Console.WriteLine($"Success!FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}\nID: {transfer.TransferId} ");
-                Console.WriteLine($"From:{transfer.FromUserName}   To:{transfer.ToUserName}");
+                //Console.WriteLine($"From:{transfer.FromUserName}   To:{transfer.ToUserName}");
             }
+        }
+
+
+        public void GetUserTransfers()
+        {
+            Console.Clear();
+            List<Transfer> userTransfers = transactionService.GetUserTransfers(); //add this to TransactionService.cs
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("Transfers                                  ");
+            Console.WriteLine("ID          From/To                  Amount");
+            Console.WriteLine("-------------------------------------------");
         }
 
         public decimal GetTransferAmount()

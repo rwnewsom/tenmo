@@ -12,6 +12,12 @@ namespace TenmoServer.DAO
         private readonly string connectionString;
         const decimal startingBalance = 1000;
 
+        const string sqlGetTransfers = "SELECT  t.transfer_id AS 'transferId', (SELECT u.username WHERE t.account_from = a.account_id)  AS 'fromName', " +
+            "(SELECT username FROM users u INNER JOIN accounts a ON u.user_id = a.user_id WHERE t.account_to = a.account_id)  AS 'toName', t.amount AS 'amount', " +
+            "tt.transfer_type_desc AS 'typeDescription', ts.transfer_status_desc AS 'statusDescription'  FROM transfers t " +
+            "INNER JOIN accounts a ON t.account_from = a.account_id INNER JOIN users u on a.user_id = u.user_id INNER JOIN transfer_statuses ts  " +
+            "ON t.transfer_status_id = ts.transfer_status_id INNER JOIN transfer_types tt ON t.transfer_type_id = tt.transfer_type_id WHERE u.user_id = @userId";
+
         public UserSqlDAO(string dbConnectionString)
         {
             connectionString = dbConnectionString;
@@ -158,6 +164,57 @@ namespace TenmoServer.DAO
             }
 
         }
+        /*
+         *  "SELECT  t.transfer_id AS 'transferId', (SELECT u.username WHERE t.account_from = a.account_id)  AS 'fromName', " +
+            "(SELECT username FROM users u INNER JOIN accounts a ON u.user_id = a.user_id WHERE t.account_to = a.account_id)  AS 'toName', t.amount AS 'amount', " +
+            "tt.transfer_type_desc AS 'typeDescription', ts.transfer_status_desc AS 'statusDescription'  FROM transfers t " +
+            "INNER JOIN accounts a ON t.account_from = a.account_id INNER JOIN users u on a.user_id = u.user_id INNER JOIN transfer_statuses ts  " +
+            "ON t.transfer_status_id = ts.transfer_status_id INNER JOIN transfer_types tt ON t.transfer_type_id = tt.transfer_type_id WHERE u.user_id = @userId";
+         */
+
+
+        private Transfer GetTransferFromReader(SqlDataReader reader)
+        {
+            return new Transfer()
+            {
+                TransferId = Convert.ToInt32(reader["transferId"]),
+                FromUserName = Convert.ToString(reader["fromName"]),
+                ToUserName = Convert.ToString(reader["toName"]),
+                TypeDescription = Convert.ToString(reader["typeDescription"]),
+                StatusDescription = Convert.ToString(reader["statusDescription"]),
+                Amount = Convert.ToInt32(reader["amount"])
+            };
+        }
+        
+
+        
+        public List<Transfer> GetUserTransfers(int userId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sqlGetTransfers, conn);
+                cmd.Parameters.AddWithValue("@userId", userId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                
+                List<Transfer> transfers = new List<Transfer>();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Transfer t = GetTransferFromReader(reader);
+                        transfers.Add(t);
+                    }
+                }
+                return transfers;
+            }
+
+
+        }
+        
+
         public Transfer PostTransfer(Transfer transfer)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

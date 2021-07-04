@@ -36,9 +36,9 @@ namespace TenmoServer.Models
         public int AccountFrom { get; set; }
         public int AccountTo { get; set; }
 
-        public string FromUserName { get; set; }
+        public string FromUserName { get; set; }//assigned at client
 
-        public string ToUserName { get; set; }
+        public string ToUserName { get; set; }//assigned at client
         /// <summary>
         /// Request or Send
         /// </summary>
