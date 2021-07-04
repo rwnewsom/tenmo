@@ -21,8 +21,7 @@ namespace TenmoServer.Controllers
 
         public TransactionController(IUserDAO userSqlDAO)
         {
-            this.userSqlDAO = userSqlDAO;
-            
+            this.userSqlDAO = userSqlDAO;            
         }
 
         
@@ -63,10 +62,12 @@ namespace TenmoServer.Controllers
         {
             Account sendingAccount = userSqlDAO.GetUserBalanceFromReader(transfer.FromUserId);
             Account receivingAccount = userSqlDAO.GetUserBalanceFromReader(transfer.ToUserId);
+            
             if (sendingAccount.Balance < transfer.Amount)
             {
                 throw new Exception("Overdraft not permitted");
             }
+
             transfer.AccountFrom = receivingAccount.AccountId;
             transfer.AccountTo = sendingAccount.AccountId;
             Transfer newTransfer = this.userSqlDAO.PostTransfer(transfer);

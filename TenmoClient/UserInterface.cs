@@ -82,9 +82,7 @@ namespace TenmoClient
                             ShowAccountBalance(); // TODONE!
                             break;
                         case 2: // View Past Transfers
-                            GetUserTransfers();
-                            //Console.WriteLine("NOT IMPLEMENTED!");
-                            // TODO: Implement me
+                            GetUserTransfers();// TODONE!
                             break;
                         case 3: // View Pending Requests
                             Console.WriteLine("NOT IMPLEMENTED!"); // TODO: Implement me
@@ -164,9 +162,9 @@ namespace TenmoClient
             }
             Console.WriteLine();
             int recipientId = consoleService.PromptForRecipientID(); // for transfer object
-            //string fromUserName = "";
             string toUserName = "";
             bool validRecipient = false;
+
             foreach (RecipientUser r in recipients)
             {
                 if (recipientId == r.UserId)
@@ -182,8 +180,6 @@ namespace TenmoClient
                 return;
             }
 
-            //Console.WriteLine("You have selected user ID: " + recipientId);
-            //Console.WriteLine("You current ID: " + currentUserId);
             decimal transferAmount = GetTransferAmount();
             Account account = transactionService.Balance();
             decimal balance = account.Balance;
@@ -196,7 +192,6 @@ namespace TenmoClient
             {
                 Transfer transfer = transactionService.CreateTransfer(currentUserId, recipientId, transferAmount, currentUserName, toUserName);
                 Console.WriteLine($"Success!FROM: {transfer.FromUserId}\nTO: {transfer.ToUserId}\nAMOUNT: {transfer.Amount}\nID: {transfer.TransferId} ");
-                //Console.WriteLine($"From:{transfer.FromUserName}   To:{transfer.ToUserName}");
             }
         }
 
@@ -204,23 +199,29 @@ namespace TenmoClient
         public void GetUserTransfers()
         {
             Console.Clear();
-            List<Transfer> userTransfers = transactionService.GetUserTransfers(); //add this to TransactionService.cs
+            List<Transfer> userTransfers = transactionService.GetUserTransfers();
             Console.WriteLine("-------------------------------------------");
             Console.WriteLine("Transfers                                  ");
             Console.WriteLine("ID          From/To                  Amount");
             Console.WriteLine("-------------------------------------------");
-
+            if(userTransfers.Count == 0)
+            {
+                Console.WriteLine($"\n\t*_*_*NO TRANSFERS FOUND*_*_*");
+            }
+            
             foreach (Transfer t in userTransfers)
             {
                 Console.WriteLine($"{t.TransferId.ToString().PadRight(10)}From:{t.FromUserName.PadRight(15)}To:{t.ToUserName.PadRight(15)}{t.Amount.ToString("c")}");
             }
-            Console.WriteLine("Which transaction would you like to review?");
-            string reply = Console.ReadLine();
-            int requested = int.Parse(reply);
+
+            int requested = consoleService.PromptForTransferID("review");
+            bool isTransferValid = false;
+
             foreach (Transfer t in userTransfers)
             {
                 if (t.TransferId == requested)
                 {
+                    isTransferValid = true;
                     Console.WriteLine("Id: " + t.TransferId);
                     Console.WriteLine("From: " + t.FromUserName);
                     Console.WriteLine("To: " + t.ToUserName);
@@ -228,6 +229,10 @@ namespace TenmoClient
                     Console.WriteLine("Status: " + t.StatusDescription);
                     Console.WriteLine("Amount: " + t.Amount.ToString("c"));
                 }
+            }
+            if (!isTransferValid)
+            {
+                Console.WriteLine("Error: requested transfer not found.");
             }
         }
 

@@ -77,7 +77,6 @@ namespace TenmoClient//adding class to limit authServices responsibility
             else
             {
                 Console.WriteLine("An error occurred fetching users");
-
                 return new List<Transfer>();
             }
         }

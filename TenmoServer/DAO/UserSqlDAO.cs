@@ -220,7 +220,6 @@ namespace TenmoServer.DAO
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                // INSERT INTO transfers VALUES(1001, 2001, @accountFrom, @accountTo); //TODO: need to get account numbers!
                 SqlCommand cmd = new SqlCommand("UPDATE accounts SET balance = balance - @withdrawamount WHERE user_id = @fromUser_id; UPDATE accounts SET balance = balance + @amount WHERE user_id = @toUser_id; INSERT INTO transfers VALUES(1001, 2001, @accountFrom, @accountTo, @amount); SELECT @@IDENTITY;", conn);
                 cmd.Parameters.AddWithValue("@withdrawamount", transfer.Amount);
                 cmd.Parameters.AddWithValue("@amount", transfer.Amount);
@@ -228,10 +227,8 @@ namespace TenmoServer.DAO
                 cmd.Parameters.AddWithValue("@fromUser_id", transfer.FromUserId); //
                 cmd.Parameters.AddWithValue("@accountFrom", transfer.AccountFrom);
                 cmd.Parameters.AddWithValue("@accountTo", transfer.AccountTo);
-                //transfer.TransferId = Convert.ToInt32(cmd.ExecuteScalar());       //keeps returning null...    because we aren't inserting anything!   
                 int createdId = Convert.ToInt32(cmd.ExecuteScalar());
                 transfer.TransferId = createdId;
-                //cmd.ExecuteNonQuery();
             }
             return transfer;
         }
