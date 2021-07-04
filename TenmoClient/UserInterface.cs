@@ -82,7 +82,8 @@ namespace TenmoClient
                             ShowAccountBalance(); // TODONE!
                             break;
                         case 2: // View Past Transfers
-                            Console.WriteLine("NOT IMPLEMENTED!");
+                            GetUserTransfers();
+                            //Console.WriteLine("NOT IMPLEMENTED!");
                             // TODO: Implement me
                             break;
                         case 3: // View Pending Requests
@@ -208,6 +209,12 @@ namespace TenmoClient
             Console.WriteLine("Transfers                                  ");
             Console.WriteLine("ID          From/To                  Amount");
             Console.WriteLine("-------------------------------------------");
+
+            foreach (Transfer t in userTransfers)
+            {
+                Console.WriteLine($"{t.TransferId.ToString().PadRight(20)}{t.TypeDescription.PadRight(25)}{t.Amount.ToString("c")}");
+            }
+
         }
 
         public decimal GetTransferAmount()

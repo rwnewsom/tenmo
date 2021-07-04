@@ -49,8 +49,9 @@ namespace TenmoServer.Controllers
         }
 
         [HttpGet("transfer")]
-        public ActionResult<List<Transfer>> GetUserTransfers(int userId)
+        public ActionResult<List<Transfer>> GetUserTransfers()
         {
+            int userId = int.Parse(this.User.FindFirst("sub").Value);
             return Ok(userSqlDAO.GetUserTransfers(userId));
         }
 
