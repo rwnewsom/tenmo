@@ -65,7 +65,8 @@ namespace TenmoServer.Controllers
             
             if (sendingAccount.Balance < transfer.Amount)
             {
-                throw new Exception("Overdraft not permitted");
+                return BadRequest(new { message = "Overdraft not permitted." });
+                //throw new Exception("Overdraft not permitted");
             }
 
             transfer.AccountFrom = receivingAccount.AccountId;
